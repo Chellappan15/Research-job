@@ -14,8 +14,8 @@ describe("content cards with missing optional fields", () => {
     expect(link).toHaveAttribute("href", "https://example.com/1");
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
-    expect(screen.getByText("No summary provided by the source.")).toBeInTheDocument();
-    expect(screen.getByText(/fetched/)).toBeInTheDocument(); // falls back to fetch time
+    expect(screen.queryByText(/summary/i)).not.toBeInTheDocument(); // nothing shown, no filler text
+    expect(screen.getByText(/added/)).toBeInTheDocument(); // falls back to fetch time
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
 
@@ -33,5 +33,14 @@ describe("content cards with missing optional fields", () => {
     expect(img).toHaveAttribute("src", "https://img.example/x.jpg");
     fireEvent.error(img);
     expect(screen.getByTestId("thumbnail-placeholder")).toBeInTheDocument();
+  });
+});
+
+describe("ArticleCard variants", () => {
+  it("labels videos and renders a featured lead story", () => {
+    render(<ArticleCard featured item={makeItem(5, { type: "video", thumbnail_url: "https://img.example/v.jpg" })} />);
+    expect(screen.getByText("Video")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3 })).toHaveClass("text-xl");
+    expect(screen.getByRole("link", { name: /opens on YouTube/ })).toBeInTheDocument();
   });
 });

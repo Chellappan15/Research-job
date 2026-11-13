@@ -89,7 +89,7 @@ export function OverviewPage() {
   return (
     <>
       <PageHeader
-        title="Overview"
+        title="System status"
         description={
           s?.newest_item_at ? (
             <>Newest item <RelativeTime iso={s.newest_item_at} /></>
@@ -216,7 +216,7 @@ export function OverviewPage() {
             title="Recent ingestion runs"
             icon={<Activity className="size-4 text-fg-muted" aria-hidden />}
             action={
-              <Link to="/jobs" className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline">
+              <Link to="/admin/jobs" className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline">
                 Job monitor <ArrowRight className="size-3" aria-hidden />
               </Link>
             }

@@ -26,15 +26,25 @@ The backend (API, worker, scheduler) must be running; see the root README.
 
 ## Pages
 
-| Route | Data |
-|---|---|
-| `/` Overview | `/stats` (totals, article/video split, active sources, run status), latest 8 items, last 6 runs. Polls every 10 s. |
-| `/news` News Feed | `/feed?type=article` with server-side search (`q`), source, date range, 20 per page. |
-| `/videos` YouTube Videos | `/feed?type=video`, thumbnail grid, 24 per page. |
-| `/sources` Sources | `/sources`: type, enabled, last success, interval, item count, last error. |
-| `/jobs` Job Monitor | `/ingestion-runs` with status/source filters, started/completed/duration/attempts/items/errors. Polls every 5 s. |
+**Public site** (top navigation, for readers)
 
-Filters and page number live in the URL (shareable, survive refresh). Changing a filter resets to page 1; a URL pointing past the last page jumps to the last page. Polling pauses in background tabs (TanStack Query default).
+| Route | Content |
+|---|---|
+| `/` Home | Featured story + 6 latest articles, 4 latest videos |
+| `/news` | All articles: search, source and date filters, 20 per page |
+| `/videos` | All videos as a thumbnail grid, 24 per page |
+| `/search?q=` | Site-wide full-text search over articles and videos (header search box) |
+| `/about` | What TechPulse is and which sources it uses |
+
+**System status** (`/admin`, linked only from the footer; read-only, no login)
+
+| Route | Content |
+|---|---|
+| `/admin` | Stats, ingestion status, latest content, recent runs (polls every 10 s) |
+| `/admin/sources` | Sources: type, enabled, last success, interval, item count, last error |
+| `/admin/jobs` | Ingestion runs with status/source filters (polls every 5 s) |
+
+Old URLs `/sources` and `/jobs` redirect to `/admin/...`.
 
 ## Structure
 
@@ -43,7 +53,7 @@ src/
   api/          client.ts (fetch wrapper, ApiError, FastAPI error parsing), types.ts (mirrors backend schemas)
   hooks/        queries.ts (TanStack Query hooks, poll intervals)
   components/
-    layout/     AppLayout (sidebar, mobile drawer, skip link, API health dot)
+    layout/     SiteLayout (public top nav, search, footer), AdminLayout (status sidebar, API health dot)
     ui/         Card, Badge/StatusBadge, Skeleton, Error/Empty states, Pagination, form controls, RelativeTime
     content/    ArticleCard, VideoCard, Thumbnail, RunsTable, FeedFilters, skeletons
   pages/        Overview, News, Videos, Sources, Jobs (+ tests)

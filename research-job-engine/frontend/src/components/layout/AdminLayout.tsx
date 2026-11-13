@@ -1,25 +1,14 @@
-import {
-  Activity,
-  LayoutDashboard,
-  Menu,
-  Newspaper,
-  Radio,
-  Rss,
-  X,
-  MonitorPlay,
-} from "lucide-react";
+import { Activity, ArrowLeft, LayoutDashboard, Menu, Radio, Rss, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { NavLink, Outlet, useLocation } from "react-router";
+import { Link, NavLink, Outlet, useLocation } from "react-router";
 
 import { useHealth } from "../../hooks/queries";
 import { cn } from "../../lib/cn";
 
 const NAV = [
-  { to: "/", label: "Overview", icon: LayoutDashboard, end: true },
-  { to: "/news", label: "News Feed", icon: Newspaper },
-  { to: "/videos", label: "YouTube Videos", icon: MonitorPlay },
-  { to: "/sources", label: "Sources", icon: Rss },
-  { to: "/jobs", label: "Job Monitor", icon: Activity },
+  { to: "/admin", label: "Overview", icon: LayoutDashboard, end: true },
+  { to: "/admin/sources", label: "Sources", icon: Rss },
+  { to: "/admin/jobs", label: "Job Monitor", icon: Activity },
 ];
 
 function Brand() {
@@ -29,6 +18,9 @@ function Brand() {
         <Radio className="size-4" aria-hidden />
       </span>
       <span className="text-[15px] font-semibold tracking-tight">TechPulse</span>
+      <span className="rounded border border-line-strong px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-fg-muted uppercase">
+        Status
+      </span>
     </div>
   );
 }
@@ -49,6 +41,17 @@ function ApiStatus() {
       />
       API {state}
     </div>
+  );
+}
+
+function BackToSite() {
+  return (
+    <Link
+      to="/"
+      className="mb-3 flex items-center gap-2 rounded-md px-2.5 py-1.5 text-sm text-fg-muted hover:bg-hover hover:text-fg"
+    >
+      <ArrowLeft className="size-4" aria-hidden /> Back to site
+    </Link>
   );
 }
 
@@ -79,7 +82,8 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-export function AppLayout() {
+/** Layout for the operator/status area under /admin. */
+export function AdminLayout() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -112,9 +116,10 @@ export function AppLayout() {
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 hidden w-60 flex-col border-r border-line bg-surface px-3 py-4 lg:flex">
         <Brand />
-        <nav aria-label="Main" className="mt-6 flex-1">
+        <nav aria-label="Status pages" className="mt-6 flex-1">
           <NavItems />
         </nav>
+        <BackToSite />
         <ApiStatus />
       </aside>
 
@@ -149,9 +154,10 @@ export function AppLayout() {
             className="absolute inset-y-0 left-0 flex w-64 flex-col border-r border-line bg-surface px-3 py-4"
           >
             <Brand />
-            <nav aria-label="Main" className="mt-6 flex-1">
+            <nav aria-label="Status pages" className="mt-6 flex-1">
               <NavItems onNavigate={() => setOpen(false)} />
             </nav>
+            <BackToSite />
             <ApiStatus />
           </div>
         </div>

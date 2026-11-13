@@ -9,7 +9,7 @@ export function NotFoundPage() {
       description="That route doesn’t exist."
       action={
         <Link to="/" className="text-sm font-medium text-accent hover:underline">
-          Back to overview
+          Back to home
         </Link>
       }
     />
