@@ -1,0 +1,28 @@
+# TechPulse reverse proxy: serves the React build and forwards API calls to FastAPI.
+# DOMAIN comes from .env. With a real domain (e.g. techpulse.example.com) whose DNS
+# points at this server, Caddy obtains and renews HTTPS certificates automatically.
+# Use DOMAIN=localhost for a local trial (self-signed certificate) or DOMAIN=:80 for plain HTTP.
+{$DOMAIN} {
+	encode zstd gzip
+
+	@backend path /api/* /health /health/ready
+	handle @backend {
+		reverse_proxy {$API_UPSTREAM:api:8000}
+	}
+
+	handle {
+		root * {$WEB_ROOT:/srv}
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		# Single-page app: unknown paths (e.g. /news?page=2) fall back to index.html.
+		try_files {path} /index.html
+		file_server
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options DENY
+		-Server
+	}
+}

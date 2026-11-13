@@ -1,0 +1,9 @@
+[
+  {"name": "Hugging Face Blog", "source_type": "rss", "feed_url": "https://huggingface.co/blog/feed.xml", "fetch_interval_seconds": 3600},
+  {"name": "OpenAI News", "source_type": "rss", "feed_url": "https://openai.com/news/rss.xml", "fetch_interval_seconds": 3600},
+  {"name": "Google AI Blog", "source_type": "rss", "feed_url": "https://blog.google/technology/ai/rss/", "fetch_interval_seconds": 3600},
+  {"name": "arXiv cs.AI", "source_type": "rss", "feed_url": "https://rss.arxiv.org/rss/cs.AI", "fetch_interval_seconds": 21600},
+  {"name": "transformers releases", "source_type": "github", "feed_url": "https://github.com/huggingface/transformers/releases.atom", "fetch_interval_seconds": 21600},
+  {"name": "Two Minute Papers", "source_type": "youtube", "channel_id": "UCbfYPyITQ-7l4upoX8nvctg", "fetch_interval_seconds": 3600},
+  {"name": "Yannic Kilcher", "source_type": "youtube", "channel_id": "UCZHmQk67mSJgfCCTn7xBfew", "fetch_interval_seconds": 3600}
+]
