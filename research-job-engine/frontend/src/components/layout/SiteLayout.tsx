@@ -111,9 +111,9 @@ export function SiteLayout() {
             <Link to="/about" className="hover:text-fg">
               About
             </Link>
-            <Link to="/admin" className="hover:text-fg">
+            {/* <Link to="/admin" className="hover:text-fg">
               System status
-            </Link>
+            </Link> */}
           </nav>
         </div>
       </footer>
